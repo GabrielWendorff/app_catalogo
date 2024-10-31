@@ -1,0 +1,30 @@
+// Primeiro, defina o bloco buildscript para importar os plugins necessários
+buildscript {
+    repositories {
+        google()  // Certifique-se de que o repositório do Google está incluído
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:7.4.2' // Certifique-se de usar uma versão compatível
+        classpath 'com.google.gms:google-services:4.3.15' // Adicione esta linha para incluir o plugin de serviços do Google
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+rootProject.buildDir = "../build"
+subprojects {
+    project.buildDir = "${rootProject.buildDir}/${project.name}"
+}
+subprojects {
+    project.evaluationDependsOn(":app")
+}
+
+tasks.register("clean", Delete) {
+    delete rootProject.buildDir
+}

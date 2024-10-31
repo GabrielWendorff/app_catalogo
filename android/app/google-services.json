@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "573651754688",
+    "project_id": "appmanger-1a9c4",
+    "storage_bucket": "appmanger-1a9c4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:573651754688:android:2eba43cf110d36310ad725",
+        "android_client_info": {
+          "package_name": "com.example.app_manager"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDm3wi3jtlABNuDrLkisE5UDQXmOHMqi-0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

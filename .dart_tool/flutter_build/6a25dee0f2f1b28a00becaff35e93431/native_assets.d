@@ -1,0 +1,1 @@
+ /home/gabriel/Documentos/development/projects/app_catalogo/app_catalogo/.dart_tool/flutter_build/6a25dee0f2f1b28a00becaff35e93431/native_assets.yaml: 
