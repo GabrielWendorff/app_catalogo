@@ -3,9 +3,4 @@
 A new Flutter project.
 
 ## Getting Started
-
-.color1 { #0a6bf5 };
-.color2 { #3183f8 };
-.color3 { #589afa };
-.color4 { #7fb2fd };
-.color5 { #a6c9ff };
+https://paletadecores.com/paleta/0a6bf5/3183f8/589afa/7fb2fd/a6c9ff/)
