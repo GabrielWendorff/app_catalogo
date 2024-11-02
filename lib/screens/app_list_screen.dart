@@ -1,3 +1,4 @@
+// Importando as bibliotecas necessárias
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'app_form_screen.dart';
@@ -21,8 +22,9 @@ class AppListScreen extends StatelessWidget {
             return Center(child: CircularProgressIndicator());
           }
 
-          // Agrupando aplicativos por categoria
-          final apps = snapshot.data!.docs.map((doc) => AppModel.fromMap(doc.data() as Map<String, dynamic>, doc.id)).toList();
+          final apps = snapshot.data!.docs
+              .map((doc) => AppModel.fromMap(doc.data() as Map<String, dynamic>, doc.id))
+              .toList();
           final Map<String, List<AppModel>> appsByCategory = {};
 
           for (var app in apps) {
@@ -32,7 +34,6 @@ class AppListScreen extends StatelessWidget {
             appsByCategory[app.category]!.add(app);
           }
 
-          // Exibindo categorias
           return ListView(
             children: appsByCategory.keys.map((category) {
               return Column(
@@ -53,7 +54,6 @@ class AppListScreen extends StatelessWidget {
                       itemBuilder: (context, index) {
                         final app = appsByCategory[category]![index];
                         return GestureDetector(
-                          onTap: () => _showAppDetails(context, app),
                           child: Card(
                             child: Container(
                               width: 120,
@@ -61,7 +61,42 @@ class AppListScreen extends StatelessWidget {
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Text(app.title, style: TextStyle(fontWeight: FontWeight.bold)),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        app.title,
+                                        style: TextStyle(fontWeight: FontWeight.bold),
+                                      ),
+                                      PopupMenuButton<String>(
+                                        onSelected: (choice) {
+                                          if (choice == 'Editar') {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) => AppFormScreen(
+                                                  docId: app.id,
+                                                  title: app.title,
+                                                  description: app.description,
+                                                  category: app.category,
+                                                ),
+                                              ),
+                                            );
+                                          } else if (choice == 'Excluir') {
+                                            _deleteApp(context, app.id);
+                                          }
+                                        },
+                                        itemBuilder: (BuildContext context) {
+                                          return {'Editar', 'Excluir'}.map((String choice) {
+                                            return PopupMenuItem<String>(
+                                              value: choice,
+                                              child: Text(choice),
+                                            );
+                                          }).toList();
+                                        },
+                                      ),
+                                    ],
+                                  ),
                                   SizedBox(height: 8),
                                   Text(app.description, maxLines: 2, overflow: TextOverflow.ellipsis),
                                 ],
@@ -87,29 +122,6 @@ class AppListScreen extends StatelessWidget {
       ),
     );
   }
-
-  // Método para mostrar detalhes do aplicativo em um popup
-  void _showAppDetails(BuildContext context, AppModel app) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(app.title),
-          content: Text(app.description),
-          actions: [
-            TextButton(
-              child: Text('Fechar'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-
 
   Future<void> _deleteApp(BuildContext context, String docId) async {
     try {
